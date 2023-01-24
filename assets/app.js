@@ -79,9 +79,21 @@ document.addEventListener('DOMContentLoaded', () => {
     timerId = setInterval(moveDown, 700)
 
     // fucntion for the keycodes
-    
+    window.document.body.addEventListener('keydown', function(event){
+     if(event.key === 'ArrowLeft'){
+       return moveLeft()
+     } else if (event.key === 'ArrowRight') {
+         return moveRight()
+     } else if (event.key === 'ArrowUp') {
+      
+     }else if (event.key === 'ArrowDown') {
+      return moveDown()
+     }
+    }
+    )
 
-    function moveDown() {
+    // the tetromino moves down
+   function moveDown() {
       undraw()
       currentPosition+= width
       draw()
@@ -108,10 +120,26 @@ document.addEventListener('DOMContentLoaded', () => {
   if(!isAtLeftEdge) currentPosition -=1;
 
   if(current.some(index => squares[currentPosition + index].classList.contains('taken')))
-  currentPosition +=1;
+  {currentPosition +=1;
+  }
+  draw()
 }
 
-draw()
+// move the tetromino to the right, unless it is at the edge
+function moveRight() {
+  undraw()
+  const isAtRightEdge = current.some(index => (currentPosition + index) % width === width-1);
+  
+  if(!isAtRightEdge) currentPosition +=1;
+
+  if(current.some(index => squares[currentPosition + index].classList.contains('taken')))
+  {currentPosition -=1;
+  }
+  draw()
+}
+
+
+
 
 
 })
