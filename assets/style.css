@@ -1,6 +1,6 @@
-/* .container {
+.container {
     display: flex;
-} */
+}
 
 .grid {
     width: 200px;
@@ -18,4 +18,18 @@
 
 .tetromino {
     background-color: #ffefda;
+}
+
+.mini-grid {
+    margin-left: 50px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #efcfe3;
+}
+
+mini-grid div {
+    height:20px;
+    width: 20px;
 }
