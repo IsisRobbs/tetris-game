@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
      } else if (event.key === 'ArrowRight') {
          return moveRight()
      } else if (event.key === 'ArrowUp') {
-      
+        return rotate()
      }else if (event.key === 'ArrowDown') {
       return moveDown()
      }
@@ -135,6 +135,17 @@ function moveRight() {
   if(current.some(index => squares[currentPosition + index].classList.contains('taken')))
   {currentPosition -=1;
   }
+  draw()
+}
+
+// rotate the tetromino
+function rotate() {
+  undraw()
+  currentRotation ++
+  if(currentRotation === current.length) {
+    currentRotation = 0
+  }
+  current = theTetrominoes[random][currentRotation]
   draw()
 }
 
