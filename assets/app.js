@@ -4,7 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const scoreDisplay = document.querySelector('#score');
     const startButton = document.querySelector('#start-button');
     const width = 10;
-    let nextRandom = 0
+    let nextRandom = 0;
+    let timerId
+    let score = 0;
+    const colors = [
+      '#befffd',
+      '#caffbe',
+      '#d5b9fc',
+      '#ffefda',
+      'ffa744'
+    ]
 
     // console.log(squares);
 
@@ -64,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
      function draw() {
         current.forEach(index => {
             squares[currentPosition + index].classList.add('tetromino')
+            squares[currentPosition + index].style.backgroundColor = colors[random]
         })
       }
 
@@ -73,11 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
      function undraw() {
       current.forEach(index => {
         squares[currentPosition + index].classList.remove('tetromino')
+        squares[currentPosition + index].style.backgroundColor = '';
       })
      }
 
     //  make the tetromino move down every second
-    timerId = setInterval(moveDown, 1000)
+    // timerId = setInterval(moveDown, 1000)
 
     // fucntion for the keycodes
     window.document.body.addEventListener('keydown', function(event){
@@ -112,6 +123,8 @@ document.addEventListener('DOMContentLoaded', () => {
     currentPosition = 4;
     draw()
     displayShape()
+    addScore()
+    gameOver()
     } 
   }
 
@@ -171,17 +184,20 @@ function displayShape() {
   // remove any trace of a tetromino form the entire gird
   displaySquares.forEach(square => {
     square.classList.remove('tetromino')
+    square.style.backgroundColor = ''
   })
   upNextTetrominoes[nextRandom].forEach( index => {
     displaySquares[displayIndex + index].classList.add('tetromino')
+    display
   })
 }
-
+// add start button to the page
 startButton.addEventListener('click', () => {
 if (timerId){
   clearInterval(timerId)
   timerId = null
 } else {
+  // game will not start unless start button is pushed
   draw()
   timerId = setInterval(moveDown, 1000)
   nextRandom = Math.floor(Math.random()*theTetrominoes.length)
@@ -189,6 +205,33 @@ if (timerId){
 }
 })
 
+// add score function
+function addScore() {
+for (let i=0; i < 199; i+=width){
+  const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7,  i+8, i+9]
+
+  if(row.every(index => squares[index].classList.contains('taken'))){
+    score+=10
+    scoreDisplay.innerHTML = score;
+    row.forEach(index => {
+      squares[index].classList.remove('taken');
+      squares[index].classList.remove('tetromino')
+    })
+    const squaresRemoved = squares.splice(i, width) 
+    // console.log(squaresRemoved);
+    squares = squaresRemoved.concat(squares);
+    squares.forEach(cell => grid.appendChild(cell));
+  }
+}
+}
+
+// game over
+function gameOver() {
+if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+  scoreDisplay.innerHTML = 'end';
+  clearInterval(timerId)
+}
+}
 
 })
 
