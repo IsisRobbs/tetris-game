@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '#caffbe',
       '#d5b9fc',
       '#ffefda',
-      'ffa744'
+      '#ffa744'
     ]
 
     // console.log(squares);
@@ -188,7 +188,7 @@ function displayShape() {
   })
   upNextTetrominoes[nextRandom].forEach( index => {
     displaySquares[displayIndex + index].classList.add('tetromino')
-    display
+    displaySquares[displayIndex + index].style.backgroundColor = colors[nextRandom];
   })
 }
 // add start button to the page
@@ -215,7 +215,8 @@ for (let i=0; i < 199; i+=width){
     scoreDisplay.innerHTML = score;
     row.forEach(index => {
       squares[index].classList.remove('taken');
-      squares[index].classList.remove('tetromino')
+      squares[index].classList.remove('tetromino');
+      squares[index].style.backgroundColor = '';
     })
     const squaresRemoved = squares.splice(i, width) 
     // console.log(squaresRemoved);
